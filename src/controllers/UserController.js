@@ -46,15 +46,11 @@ async function saveUser(req, res) {
 
 async function getUser(req, res) {
   const code = req.code;
+  const db = await mongoDB("School");
+  const collection = await db.collection("students");
   console.log("aaaaa", code);
-  await User.find({ code: code })
-    .then((data) => {
-      res.status(200).json({ result: true, user: data[0] });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(400).json({ result: false, user: [] });
-    });
+  const data = await collection.findOne({ code: code }) 
+  res.status(200).json({ result: true, user: data});
 }
 
 module.exports = {
