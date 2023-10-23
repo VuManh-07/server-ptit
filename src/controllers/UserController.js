@@ -51,8 +51,9 @@ async function getUser(req, res) {
   const collection = await db.collection("students");
   console.log("aaaaa", code);
   const data = await collection.findOne({code: code}) 
-  console.log("aaaaa", data)
-  res.status(200).json({ result: true, user: data});
+  if(data != null) {
+    res.status(200).json({ result: true, user: data});
+  }else res.status(404).json({ result: false, user: {}});
 }
 
 module.exports = {
