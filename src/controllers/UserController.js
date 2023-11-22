@@ -30,14 +30,14 @@ async function saveUser(req, res) {
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({
+      res.json({
         success: false,
         message: "Server error. Please try again.",
         error: error.message,
       });
     }
   } else {
-    res.status(500).json({
+    res.json({
       success: false,
       message: "This student is exist",
       error: error.message,
@@ -51,8 +51,8 @@ async function getUser(req, res) {
   const collection = await db.collection("students");
   const data = await collection.findOne({ code: code });
   if (data != null) {
-    res.status(200).json({ result: true, user: data });
-  } else res.status(404).json({ result: false, user: {} });
+    res.json({ result: true, user: data });
+  } else res.json({ result: false, user: {} });
 }
 
 async function saveBalance(req, res) {
@@ -63,9 +63,9 @@ async function saveBalance(req, res) {
     const result = await db
       .collection("students")
       .updateOne({ key: code }, { $set: { balance: amt } });
-    res.status(200).json({ result})
+    res.json({ result})
   } catch (error) {
-    res.status(400).json({ result: false})
+    res.json({ result: false})
   }
 }
 

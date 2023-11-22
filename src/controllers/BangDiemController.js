@@ -49,14 +49,14 @@ async function getBangDiem (req, res) {
     await BangDiem.find({code: code})
       .then(data=>{
           if(data.length > 0){
-            res.status(200).json({result: true, bangdiem: data[0].diem});
+            res.json({result: true, bangdiem: data[0].diem});
           }else {
-            res.status(400).json({result: false, bangdiem: []});
+            res.json({result: false, bangdiem: []});
           }
       })
       .catch (err => {
         console.error(err);
-        res.status(400).json({result: false, bangdiem: []});
+        res.json({result: false, bangdiem: []});
       })
 }
 
