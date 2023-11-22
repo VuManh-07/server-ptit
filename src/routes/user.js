@@ -6,6 +6,6 @@ const isAuth = require('../middlewares/authMiddleware')
 
 router.post("/saveUser", UserController.saveUser)
 router.get("/getUser",isAuth, UserController.getUser)
-router.get("/saveBalance",isAuth, UserController.saveBalance)
+router.post("/saveBalance", UserController.saveBalance)
 
 module.exports = router;

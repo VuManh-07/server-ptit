@@ -30,14 +30,14 @@ async function saveUser(req, res) {
       });
     } catch (error) {
       console.log(error);
-      res.json({
+      res.status(500).json({
         success: false,
         message: "Server error. Please try again.",
         error: error.message,
       });
     }
   } else {
-    res.json({
+    res.status(500).json({
       success: false,
       message: "This student is exist",
       error: error.message,
@@ -51,8 +51,8 @@ async function getUser(req, res) {
   const collection = await db.collection("students");
   const data = await collection.findOne({ code: code });
   if (data != null) {
-    res.json({ result: true, user: data });
-  } else res.json({ result: false, user: {} });
+    res.status(200).json({ result: true, user: data });
+  } else res.status(404).json({ result: false, user: {} });
 }
 
 async function saveBalance(req, res) {
@@ -60,17 +60,24 @@ async function saveBalance(req, res) {
     const code = req.body.code;
     const amt = req.body.amount;
     const db = await mongoDB("School");
-    const result = await db
-      .collection("students")
-      .updateOne({ key: code }, { $set: { balance: amt } });
-    res.json({ result})
+    const collection = await db.collection("students");
+    collection.findOneAndUpdate(
+      { code: code },
+      {
+        $set: {
+          balance: amt.toString(),
+        },
+      },
+      { upsert: true }
+    );
+    res.status(200).json({ result: true });
   } catch (error) {
-    res.json({ result: false})
+    res.status(400).json({ result: false });
   }
 }
 
 module.exports = {
   saveUser,
   getUser,
-  saveBalance
+  saveBalance,
 };

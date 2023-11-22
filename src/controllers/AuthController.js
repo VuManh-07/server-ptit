@@ -9,7 +9,7 @@ const login = (req, res) => {
     const payload = { code: code };
     jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' }, (err, token) => {
         if (err) {
-        return res.json({ message: 'Failed to generate token' });
+        return res.status(500).json({ message: 'Failed to generate token' });
         }
 
         // Trả về JWT cho client 

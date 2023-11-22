@@ -29,11 +29,6 @@ app.get('/', (req, res) => {
 	res.send('APP IS RUNNING');
 }); 
  
-app.use((err, req, res) => {
-	console.log(err.stack);
-	res.status(err.status || 500).send(err.message);
-});
- 
  
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
